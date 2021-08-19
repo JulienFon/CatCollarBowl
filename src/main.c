@@ -101,6 +101,19 @@ void set_alarm()
     sprintf(concat, "Alarme : %s:%s", hours, minutes);
     gtk_label_set_text(p_alarm_label, concat);
 }
+void turn_motor()
+{
+    printf("motor turning\n");
+}
+
+void call_animal()
+{
+    printf("sending sms\n");
+}
+void call_animal_callback(GtkWidget *widget, gpointer data)
+{
+    call_animal();
+}
 
 void set_alarm_buttons()
 {
@@ -122,6 +135,9 @@ void set_alarm_buttons()
     g_signal_connect(p_decr_m_btn, "clicked", G_CALLBACK(change_alarm_m), -1);
     g_signal_connect(p_incr_h_btn, "clicked", G_CALLBACK(change_alarm_h), 1);
     g_signal_connect(p_decr_h_btn, "clicked", G_CALLBACK(change_alarm_h), -1);
+
+    GObject *p_call_animal_btn = gtk_builder_get_object(p_builder, "call_cat");
+    g_signal_connect(p_call_animal_btn, "clicked", G_CALLBACK(call_animal_callback), NULL);
 }
 
 static void cb_quit(GtkWidget *p_wid, gpointer p_data)
@@ -140,7 +156,10 @@ static void *getTime(void *arg)
         char time_display[10];
         snprintf(time_display, sizeof(time_display), "%02d:%02d:%02d", tm_time->tm_hour, tm_time->tm_min, tm_time->tm_sec);
         if (tm_time->tm_hour == alarm_h && tm_time->tm_min == alarm_m && tm_time->tm_sec == 0)
-            printf("alarm : %i:%i\n", alarm_h, alarm_m);
+        {
+            turn_motor();
+            call_animal();
+        }
         gtk_label_set_text(p_time_label, time_display);
         sleep(1);
     }

@@ -4,38 +4,21 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="MainWindow">
     <property name="can-focus">False</property>
-    <property name="halign">center</property>
-    <property name="valign">center</property>
-    <property name="window-position">center</property>
-    <property name="gravity">center</property>
     <child>
       <object class="GtkNotebook" id="Notebook">
         <property name="visible">True</property>
         <property name="can-focus">True</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
         <property name="show-tabs">False</property>
         <child>
           <object class="GtkBox" id="alarm_page">
-            <property name="width-request">1824</property>
-            <property name="height-request">984</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
             <property name="orientation">vertical</property>
-            <property name="homogeneous">True</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid">
-                <property name="width-request">1824</property>
-                <property name="height-request">984</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="row-homogeneous">True</property>
-                <property name="column-homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="alarm_hour_increment">
                     <property name="label" translatable="yes">+</property>
@@ -105,13 +88,11 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="go_to_clock_button">
-                    <property name="label">gtk-ok</property>
+                  <object class="GtkButton" id="alarm_validate_button">
+                    <property name="label" translatable="yes">valider</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
-                    <property name="use-stock">True</property>
-                    <property name="always-show-image">True</property>
                   </object>
                   <packing>
                     <property name="left-attach">2</property>
@@ -135,25 +116,14 @@
         </child>
         <child>
           <object class="GtkBox" id="clock_page">
-            <property name="width-request">1824</property>
-            <property name="height-request">984</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
             <property name="orientation">vertical</property>
-            <property name="homogeneous">True</property>
             <child>
               <!-- n-columns=3 n-rows=3 -->
               <object class="GtkGrid">
-                <property name="width-request">1824</property>
-                <property name="height-request">984</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">center</property>
-                <property name="valign">center</property>
-                <property name="row-homogeneous">True</property>
-                <property name="column-homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="go_to_alarm_button">
                     <property name="label" translatable="yes">Régler l'alarme</property>
@@ -167,38 +137,13 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkButton" id="call_cat">
-                    <property name="label" translatable="yes">Appeler l'animal</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">True</property>
-                  </object>
-                  <packing> 
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">0</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="current_time">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">00:00</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="alarm_value">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">00:00</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">1</property>
-                    <property name="top-attach">2</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -219,13 +164,27 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="current_time">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">label</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
           <packing>
             <property name="position">1</property>
-            <property name="tab-fill">False</property>
           </packing>
         </child>
         <child>

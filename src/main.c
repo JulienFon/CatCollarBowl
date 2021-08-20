@@ -17,6 +17,8 @@
 #include <errno.h>  // Error number definitions
 #include <string.h> // String function definitions
 
+#include "secrets.h"
+
 GObject *p_builder = NULL;
 time_t current_time;
 time_t alarm_time;
@@ -34,13 +36,15 @@ struct time_set
 int A = 1, B = 4, C = 5, D = 6;
 float sleep_time = 1;
 
-void step1() {
+void step1()
+{
     digitalWrite(D, HIGH);
     delay(sleep_time);
     digitalWrite(D, LOW);
 }
 
-void step2() {
+void step2()
+{
     digitalWrite(D, HIGH);
     digitalWrite(C, HIGH);
     delay(sleep_time);
@@ -48,13 +52,15 @@ void step2() {
     digitalWrite(C, LOW);
 }
 
-void step3() {
+void step3()
+{
     digitalWrite(C, HIGH);
     delay(sleep_time);
     digitalWrite(C, LOW);
 }
 
-void step4() {
+void step4()
+{
     digitalWrite(B, HIGH);
     digitalWrite(C, HIGH);
     delay(sleep_time);
@@ -62,13 +68,15 @@ void step4() {
     digitalWrite(C, LOW);
 }
 
-void step5() {
+void step5()
+{
     digitalWrite(B, HIGH);
     delay(sleep_time);
     digitalWrite(B, LOW);
 }
 
-void step6() {
+void step6()
+{
     digitalWrite(A, HIGH);
     digitalWrite(B, HIGH);
     delay(sleep_time);
@@ -76,13 +84,15 @@ void step6() {
     digitalWrite(B, LOW);
 }
 
-void step7() {
+void step7()
+{
     digitalWrite(A, HIGH);
     delay(sleep_time);
     digitalWrite(A, LOW);
 }
 
-void step8() {
+void step8()
+{
     digitalWrite(A, HIGH);
     digitalWrite(D, HIGH);
     delay(sleep_time);
@@ -90,7 +100,8 @@ void step8() {
     digitalWrite(A, LOW);
 }
 
-void gpioSetup() {
+void gpioSetup()
+{
     wiringPiSetup();
 
     pinMode(A, OUTPUT);
@@ -178,7 +189,8 @@ void set_alarm()
 void turn_motor()
 {
     printf("motor turning\n");
-    for (int i = 0; i < 128; i++) {
+    for (int i = 0; i < 128; i++)
+    {
         step1();
         step2();
         step3();
@@ -191,68 +203,69 @@ void turn_motor()
 }
 send_sms(char data[])
 {
-char token[] = "***REMOVED***";
-    char *numbers[] = {"33***REMOVED***"};
-	
-	char *out;
+    char token[] = "***REMOVED***";
+    char *numbers[] = {SECRET_TEL_NB};
 
-	cJSON *postdata, *sms, *recipients, *car, *message, *gsm;
-	
-	char src[200]; // header for authorization
-	struct curl_slist *headers = NULL;
-	CURLcode resp;
+    char *out;
 
-	postdata = cJSON_CreateObject();
+    cJSON *postdata, *sms, *recipients, *car, *message, *gsm;
 
-	cJSON_AddItemToObject(postdata, "sms", sms = cJSON_CreateObject());
-  	cJSON_AddItemToObject(sms, "recipients", recipients = cJSON_CreateObject());
-  	cJSON_AddItemToObject(sms, "message", message = cJSON_CreateObject());
-  	cJSON_AddItemToObject(recipients, "gsm", gsm = cJSON_CreateArray());
+    char src[200]; // header for authorization
+    struct curl_slist *headers = NULL;
+    CURLcode resp;
 
-	int i = 0;
-	for(i = 0 ; i < sizeof(numbers)/sizeof(char*) ; i++){
-    	cJSON_AddItemToArray(gsm, car = cJSON_CreateObject());
-    	cJSON_AddItemToObject(car, "value", cJSON_CreateString(numbers[i]));
-  	}
-  	cJSON_AddItemToObject(message, "text", cJSON_CreateString(data));
+    postdata = cJSON_CreateObject();
 
-	out = cJSON_Print(postdata);
-	printf("%s\n", out);
+    cJSON_AddItemToObject(postdata, "sms", sms = cJSON_CreateObject());
+    cJSON_AddItemToObject(sms, "recipients", recipients = cJSON_CreateObject());
+    cJSON_AddItemToObject(sms, "message", message = cJSON_CreateObject());
+    cJSON_AddItemToObject(recipients, "gsm", gsm = cJSON_CreateArray());
 
-	// préparation requête CURL
-	
-	CURL *curl = curl_easy_init();
+    int i = 0;
+    for (i = 0; i < sizeof(numbers) / sizeof(char *); i++)
+    {
+        cJSON_AddItemToArray(gsm, car = cJSON_CreateObject());
+        cJSON_AddItemToObject(car, "value", cJSON_CreateString(numbers[i]));
+    }
+    cJSON_AddItemToObject(message, "text", cJSON_CreateString(data));
 
-	strcpy(src,  "Authorization: Bearer ");
-  	strcat(src, token);
+    out = cJSON_Print(postdata);
+    printf("%s\n", out);
 
-	headers = curl_slist_append(headers, "Content-Type: application/json");
-	headers = curl_slist_append(headers, "Accept: application/json");
-	headers = curl_slist_append(headers, src);
+    // préparation requête CURL
 
-	if(curl){
-    	curl_easy_setopt(curl, CURLOPT_URL, "https://api.smsfactor.com/send");
-    	curl_easy_setopt(curl, CURLOPT_POST, 1);
-    	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-    	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE,(long) strlen(out));
-    	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, out);
-    	resp = curl_easy_perform(curl);
+    CURL *curl = curl_easy_init();
 
-        if (resp != CURLE_OK) {
+    strcpy(src, "Authorization: Bearer ");
+    strcat(src, token);
+
+    headers = curl_slist_append(headers, "Content-Type: application/json");
+    headers = curl_slist_append(headers, "Accept: application/json");
+    headers = curl_slist_append(headers, src);
+
+    if (curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.smsfactor.com/send");
+        curl_easy_setopt(curl, CURLOPT_POST, 1);
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(out));
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, out);
+        resp = curl_easy_perform(curl);
+
+        if (resp != CURLE_OK)
+        {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(resp));
         }
         curl_easy_cleanup(curl);
     }
 
-  	cJSON_Delete(postdata);
-  	curl_slist_free_all(headers);
+    cJSON_Delete(postdata);
+    curl_slist_free_all(headers);
 }
 void call_animal()
 {
     printf("sending sms\n");
-send_sms("ring");
-
-    
+    send_sms("ring");
 }
 
 void call_animal_callback(GtkWidget *widget, gpointer data)
@@ -281,7 +294,7 @@ void set_alarm_buttons()
     g_signal_connect(p_incr_h_btn, "clicked", G_CALLBACK(change_alarm_h), 1);
     g_signal_connect(p_decr_h_btn, "clicked", G_CALLBACK(change_alarm_h), -1);
 
-    GObject *p_call_animal_btn = gtk_builder_get_object(p_builder, "call_cat");	
+    GObject *p_call_animal_btn = gtk_builder_get_object(p_builder, "call_cat");
     g_signal_connect(p_call_animal_btn, "clicked", G_CALLBACK(call_animal_callback), NULL);
 }
 

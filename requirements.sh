@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sudo apt update
-sudo apt install -y wiringpi libwiringpi-dev libcurl4-openssl-dev
+sudo apt install -y wiringpi libwiringpi-dev libcurl4-openssl-dev libgtk3-dev libcurl4-openssl-dev
 
 mkdir -p libs_src
 

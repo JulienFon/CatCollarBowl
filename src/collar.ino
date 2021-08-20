@@ -97,7 +97,7 @@ void loop() {
     if (command.equals("loc"))
     {
       measureLocation();
-      sms.beginSMS("+33"+SECRET_TEL_NB);
+      sms.beginSMS("+"+SECRET_TEL_NB);
       sms.print("https://www.google.com/maps/place/" + GSMlatitude + "," + GSMlongitude);
       sms.endSMS();
     }

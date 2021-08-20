@@ -17,7 +17,7 @@
 #include <errno.h>  // Error number definitions
 #include <string.h> // String function definitions
 
-#include "secrets.h"
+#include "../secrets.h"
 
 GObject *p_builder = NULL;
 time_t current_time;

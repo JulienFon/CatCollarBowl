@@ -75,8 +75,8 @@ void ring() {
   }
 }
 void setup() {
-  ring();
   pinMode(BUZZER, OUTPUT);
+  ring(); 
   Serial.begin(9600);
   Serial.println("SMS Messages Receiver");
   connectNetwork();
@@ -90,21 +90,22 @@ void loop() {
   String command = "";
   if (sms.available())
   {
-    //    Serial.println("Message received from:");
-    //    sms.remoteNumber(remoteNumber, 20);
-    //    Serial.println(remoteNumber);
-    while (c = sms.read())
+    int i =0;
+    while (c = sms.read() && i < 4)
       command.concat(c);
     if (command.equals("ring"))
       ring();
-    if (command.equals("loc"))
+    if (command.equals("loc "))
     {
+      String number = "";
+      while (c = sms.read())
+        number.concat(c);
       measureLocation();
-      sms.beginSMS("0633629686");
+      sms.beginSMS(number);
       sms.print("https://www.google.com/maps/place/" + GSMlatitude + "," + GSMlongitude);
       sms.endSMS();
     }
-    //sms.flush();
+    sms.flush();
 
   }
   else

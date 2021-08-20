@@ -22,3 +22,12 @@ Téléverser `collar.ino`
 -----------------
 
 Copier - Coller `secrets.h.example`, le renommer en `secrets.h` et remplir les champs nécessaires
+
+# Documentations
+
+moteur pas à pas : https://www.gotronic.fr/pj2-sbc-moto1-fr-1519.pdf
+api SMS factor : https://dev.smsfactor.com/en/api/example/c
+
+buzzer : https://wiki.seeedstudio.com/Grove-Buzzer/
+documentation GTK 3 : https://devdocs.io/gtk~3.22/
+documentation MKR 1400 : https://www.arduino.cc/en/Reference/MKRGSM

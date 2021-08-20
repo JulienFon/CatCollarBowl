@@ -27,12 +27,12 @@ echo $curdir
 echo "compilation et installation de cJSON"
 if [ ! -d libs/cJSON ]; then
     mkdir -p libs/cJSON
-    pushd libs_src/cJSON
+    cd libs_src/cJSON
         make all
         sudo make PREFIX=$curdir/libs/cJSON install
         sudo cp -a $curdir/libs/cJSON/lib/* /usr/lib
         sudo ldconfig -n -v /usr/lib
-    popd
+    cd -
     echo "compilation de cJSON terminé"
 else
     echo "cJSON déjà compilé"

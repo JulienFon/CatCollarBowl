@@ -1,0 +1,4 @@
+libs_src
+libs
+secrets.h
+src/main.o

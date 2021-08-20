@@ -1,11 +1,8 @@
 #include <GSM.h>
 #include <MKRGSM.h>
 #include <ArduinoLowPower.h>
+#include "secrets.h"
 
-#define PINNUMBER ""
-#define GPRS_APN "mmsbouygtel.com"
-#define GPRS_LOGIN ""
-#define GPRS_PASSWORD ""
 #define BUZZER 2
 
 GPRS gprs;
@@ -34,7 +31,7 @@ void connectNetwork()
   boolean notConnected = true;
   while (notConnected)
   {
-    if (gsmAccess.begin(PINNUMBER) == GSM_READY && (gprs.attachGPRS(GPRS_APN, GPRS_LOGIN, GPRS_PASSWORD) == GPRS_READY))
+    if (gsmAccess.begin(SECRET_PINNUMBER) == GSM_READY && (gprs.attachGPRS(GPRS_APN, GPRS_LOGIN, GPRS_PASSWORD) == GPRS_READY))
       notConnected = false;
     else
     {
@@ -75,8 +72,8 @@ void ring() {
   }
 }
 void setup() {
+  ring();
   pinMode(BUZZER, OUTPUT);
-  ring(); 
   Serial.begin(9600);
   Serial.println("SMS Messages Receiver");
   connectNetwork();
@@ -90,22 +87,21 @@ void loop() {
   String command = "";
   if (sms.available())
   {
-    int i =0;
-    while (c = sms.read() && i < 4)
+    //    Serial.println("Message received from:");
+    //    sms.remoteNumber(remoteNumber, 20);
+    //    Serial.println(remoteNumber);
+    while (c = sms.read())
       command.concat(c);
     if (command.equals("ring"))
       ring();
-    if (command.equals("loc "))
+    if (command.equals("loc"))
     {
-      String number = "";
-      while (c = sms.read())
-        number.concat(c);
       measureLocation();
-      sms.beginSMS(number);
+      sms.beginSMS("+33"+SECRET_TEL_NB);
       sms.print("https://www.google.com/maps/place/" + GSMlatitude + "," + GSMlongitude);
       sms.endSMS();
     }
-    sms.flush();
+    //sms.flush();
 
   }
   else

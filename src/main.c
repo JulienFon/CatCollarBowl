@@ -203,7 +203,7 @@ void turn_motor()
 }
 send_sms(char data[])
 {
-    char token[] = "***REMOVED***";
+    char token[] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0NzAyMCIsImlhdCI6MTYyNzAzNjQ3OH0.rI23r-HwM5LcSXX5kD_CqY1VZ7VrPv51Erqeu9TEknc";
     char *numbers[] = {SECRET_TEL_NB};
 
     char *out;

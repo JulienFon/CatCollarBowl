@@ -1,16 +1,16 @@
 -----------------
-#titre CATCOLLARBOWL
+# CATCOLLARBOWL
 By Fabien DUTERTE & Julien FONSON
 -----------------
 
-##titre Partie "Gamelle" (RPI)
+## Partie "Gamelle" (RPI)
 
 Pour l'installation des librairies, lancez le script `requirements.sh`
 Exécutez la commande `make`
 Pour lancer l'application exécutez `./src/main.o`
 (il est nécessaire d'être sur une RPI sinon vous aurez un message d'erreur causé par WiringPi)
 
-##titre Partie "Collier" (Arduino MKR1400)
+## Partie "Collier" (Arduino MKR1400)
 
 Veuillez installer l'IDE Arduino https://www.arduino.cc/en/software
 Tools > Board > Boards Manager > Rechercher et installer “Arduino SAMD”
